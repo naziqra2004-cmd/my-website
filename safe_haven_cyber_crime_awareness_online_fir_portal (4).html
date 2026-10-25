@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safe Haven - Cyber Crime Awareness & Online FIR Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome & Lucide Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Canvas QR Code Generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              black: '#030712',
+              card: '#0b1329',
+              accent: '#00ffcc',
+              blue: '#0088ff',
+              red: '#ff0055',
+              yellow: '#ffcc00',
+              purple: '#9d4edd'
+            }
+          },
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            mono: ['Share Tech Mono', 'monospace'],
+            sans: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #030712;
+      color: #e5e7eb;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030712;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+      border: 1px solid #00ffcc33;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00ffcc;
+    }
+
+    /* Neon Glow Effects */
+    .glow-cyan {
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.7), 0 0 20px rgba(0, 255, 204, 0.4);
+    }
+    .glow-red {
+      text-shadow: 0 0 10px rgba(255, 0, 85, 0.7), 0 0 20px rgba(255, 0, 85, 0.4);
+    }
+    .box-glow-cyan {
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.25), inset 0 0 15px rgba(0, 255, 204, 0.1);
+    }
+    .box-glow-red {
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.3), inset 0 0 10px rgba(255, 0, 85, 0.15);
+    }
+
+    /* 3D Glitch Heading */
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      clip: rect(0, 0, 0, 0);
+    }
+    .glitch-text::before {
+      left: -2px;
+      text-shadow: 2px 0 #ff0055;
+      animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+    .glitch-text::after {
+      left: 2px;
+      text-shadow: -2px 0 #00ffcc;
+      animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { clip: rect(20px, 9999px, 15px, 0); }
+      20% { clip: rect(42px, 9999px, 85px, 0); }
+      40% { clip: rect(10px, 9999px, 50px, 0); }
+      60% { clip: rect(80px, 9999px, 5px, 0); }
+      80% { clip: rect(35px, 9999px, 60px, 0); }
+      100% { clip: rect(65px, 9999px, 30px, 0); }
+    }
+    @keyframes glitch-anim-2 {
+      0% { clip: rect(60px, 9999px, 30px, 0); }
+      20% { clip: rect(15px, 9999px, 70px, 0); }
+      40% { clip: rect(90px, 9999px, 10px, 0); }
+      60% { clip: rect(25px, 9999px, 80px, 0); }
+      80% { clip: rect(5px, 9999px, 40px, 0); }
+      100% { clip: rect(50px, 9999px, 95px, 0); }
+    }
+
+    /* Grid Overlay background */
+    .cyber-grid-pattern {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+    }
+
+    /* Typewriter Cursor */
+    .typing-cursor::after {
+      content: '|';
+      animation: blink 1s infinite;
+      color: #00ffcc;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Station Scanning Effect */
+    .scanline {
+      position: relative;
+      overflow: hidden;
+    }
+    .scanline::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 2;
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyber-accent selection:text-black">
+
+  <!-- AUDIO INITIALIZATION MODAL / BANNER -->
+  <div id="audioConsentBanner" class="fixed bottom-4 right-4 z-50 max-w-sm bg-cyber-card border border-cyber-accent/50 p-4 rounded-xl shadow-2xl backdrop-blur-md flex items-center justify-between space-x-3 transition-all transform duration-300">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-full bg-cyber-accent/20 flex items-center justify-center text-cyber-accent animate-pulse">
+        <i class="fa-solid fa-volume-high text-lg"></i>
+      </div>
+      <div>
+        <h4 class="text-xs font-orbitron text-cyber-accent uppercase font-bold tracking-wider">Station Broadcast Audio</h4>
+        <p class="text-xs text-gray-400">Click anywhere or play to hear dispatch echo</p>
+      </div>
+    </div>
+    <button onclick="playDispatchVoice()" class="px-3 py-1.5 bg-cyber-accent text-black font-orbitron text-xs font-bold rounded-lg hover:bg-emerald-400 transition">
+      Play Audio
+    </button>
+  </div>
+
+  <!-- HEADER / NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 bg-cyber-black/80 backdrop-blur-md border-b border-cyber-accent/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+          <div class="relative w-12 h-12 flex items-center justify-center rounded-xl bg-gradient-to-br from-cyber-accent/20 to-cyber-blue/20 border border-cyber-accent/50 shadow-lg">
+            <i class="fa-solid fa-shield-halved text-cyber-accent text-2xl"></i>
+            <span class="absolute -top-1 -right-1 flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyber-accent opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-cyber-accent"></span>
+            </span>
+          </div>
+          <div>
+            <div class="font-orbitron font-extrabold text-lg sm:text-xl text-white tracking-wider flex items-center gap-2">
+              SAFE <span class="text-cyber-accent">HAVEN</span>
+            </div>
+            <p class="text-[10px] font-mono text-gray-400 tracking-widest uppercase">Cyber Crime & Forensic HQ</p>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Tabs -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 font-orbitron text-xs font-semibold">
+          <button onclick="switchTab('home')" id="nav-home" class="px-3 py-2 rounded-lg text-cyber-accent bg-cyber-accent/10 border border-cyber-accent/30 transition flex items-center gap-2">
+            <i class="fa-solid fa-house"></i> Home
+          </button>
+          <button onclick="switchTab('categories')" id="nav-categories" class="px-3 py-2 rounded-lg text-gray-300 hover:text-cyber-accent hover:bg-cyber-card transition flex items-center gap-2">
+            <i class="fa-solid fa-folder-open"></i> Crimes (15)
+          </button>
+          <button onclick="switchTab('guide')" id="nav-guide" class="px-3 py-2 rounded-lg text-gray-300 hover:text-cyber-accent hover:bg-cyber-card transition flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation"></i> Action Guide
+          </button>
+          <button onclick="switchTab('quiz')" id="nav-quiz" class="px-3 py-2 rounded-lg text-gray-300 hover:text-cyber-accent hover:bg-cyber-card transition flex items-center gap-2 relative">
+            <i class="fa-solid fa-clipboard-question"></i> Police Quiz
+            <span class="bg-cyber-yellow text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full">Gate</span>
+          </button>
+          <button onclick="switchTab('fir')" id="nav-fir" class="px-3 py-2 rounded-lg text-gray-400 hover:text-white bg-gray-900/50 border border-gray-800 transition flex items-center gap-2 relative group">
+            <i class="fa-solid fa-lock text-cyber-red" id="firLockIcon"></i> Online FIR
+            <span id="firBadge" class="bg-cyber-red text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">Locked</span>
+          </button>
+        </nav>
+
+        <!-- Audio Trigger & Quick Emergency Call -->
+        <div class="hidden lg:flex items-center space-x-3">
+          <button onclick="playDispatchVoice()" class="p-2.5 rounded-xl border border-cyber-accent/30 bg-cyber-card hover:border-cyber-accent text-cyber-accent transition flex items-center gap-2 text-xs font-mono" title="Replay Station Dispatch Audio">
+            <i class="fa-solid fa-radio text-sm animate-pulse"></i> Voice Dispatch
+          </button>
+          <a href="#emergency" onclick="switchTab('guide')" class="px-4 py-2.5 rounded-xl bg-cyber-red/20 border border-cyber-red text-cyber-red font-orbitron text-xs font-bold hover:bg-cyber-red hover:text-white transition flex items-center gap-2">
+            <i class="fa-solid fa-phone-volume"></i> Hotline 1991
+          </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-300 hover:text-cyber-accent focus:outline-none">
+          <i class="fa-solid fa-bars text-2xl" id="menuIcon"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-cyber-card/95 border-b border-cyber-accent/20 px-4 pt-2 pb-6 space-y-2 font-orbitron text-sm">
+      <button onclick="switchTab('home')" class="w-full text-left px-4 py-3 rounded-lg text-cyber-accent bg-cyber-accent/10 flex items-center gap-3">
+        <i class="fa-solid fa-house"></i> Home
+      </button>
+      <button onclick="switchTab('categories')" class="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-cyber-black flex items-center gap-3">
+        <i class="fa-solid fa-folder-open"></i> Categories of Crime
+      </button>
+      <button onclick="switchTab('guide')" class="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-cyber-black flex items-center gap-3">
+        <i class="fa-solid fa-triangle-exclamation"></i> Action Guide
+      </button>
+      <button onclick="switchTab('quiz')" class="w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-cyber-black flex items-center justify-between">
+        <span class="flex items-center gap-3"><i class="fa-solid fa-clipboard-question"></i> Police Station Quiz</span>
+        <span class="bg-cyber-yellow text-black text-xs font-bold px-2 py-0.5 rounded-full">Required</span>
+      </button>
+      <button onclick="switchTab('fir')" class="w-full text-left px-4 py-3 rounded-lg text-gray-400 hover:bg-cyber-black flex items-center justify-between">
+        <span class="flex items-center gap-3"><i class="fa-solid fa-file-contract"></i> File Online FIR</span>
+        <span id="mobileFirStatus" class="bg-cyber-red text-white text-xs font-bold px-2 py-0.5 rounded-full">Locked</span>
+      </button>
+      <button onclick="playDispatchVoice()" class="w-full text-left px-4 py-3 rounded-lg border border-cyber-accent/30 text-cyber-accent flex items-center gap-3">
+        <i class="fa-solid fa-radio"></i> Play Station Audio Announcement
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow relative">
+
+    <!-- 1. HOME TAB (Hero Canvas + Interactive Overview) -->
+    <section id="tab-home" class="block relative min-h-[calc(100vh-80px)] overflow-hidden">
+      <!-- Matrix Cyber Grid Background Canvas -->
+      <canvas id="heroCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+      
+      <!-- Overlay Gradient for contrast -->
+      <div class="absolute inset-0 bg-gradient-to-b from-cyber-black/70 via-cyber-black/40 to-cyber-black z-0"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 flex flex-col items-center text-center">
+        
+        <!-- Live Alert Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyber-card/90 border border-cyber-accent/40 text-cyber-accent font-mono text-xs mb-8 shadow-lg backdrop-blur-md">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyber-accent animate-ping"></span>
+          <span>SYSTEM ONLINE: 24/7 CYBER THREAT MONITORING PORTAL</span>
+        </div>
+
+        <!-- 3D Glitch Main Heading -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-orbitron font-black text-white tracking-wider uppercase glitch-text mb-6 leading-tight max-w-5xl" data-text="PROTECTING CITIZENS FROM CYBER CRIME">
+          PROTECTING CITIZENS <br class="hidden sm:inline"><span class="text-cyber-accent">FROM CYBER CRIME</span>
+        </h1>
+
+        <!-- Animated Typewriter Dynamic Wording Subtitle -->
+        <div class="h-12 flex items-center justify-center mb-10 max-w-3xl">
+          <p id="typewriterText" class="text-lg sm:text-2xl font-mono text-cyber-accent/90 typing-cursor font-medium drop-shadow"></p>
+        </div>
+
+        <!-- Call to Action Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+          <button onclick="switchTab('categories')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-cyber-accent to-emerald-400 text-black font-orbitron font-extrabold text-sm uppercase tracking-wider hover:opacity-90 transition shadow-lg box-glow-cyan flex items-center justify-center gap-3">
+            <i class="fa-solid fa-radar"></i> Explore Crime Matrix (15)
+          </button>
+          <button onclick="switchTab('quiz')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyber-card/90 border border-cyber-accent/50 text-white font-orbitron font-extrabold text-sm uppercase tracking-wider hover:bg-cyber-accent/20 transition flex items-center justify-center gap-3">
+            <i class="fa-solid fa-user-shield text-cyber-accent"></i> Take Police Interrogation Quiz
+          </button>
+        </div>
+
+        <!-- Quick Emergency Advice Banner -->
+        <div class="mt-20 w-full max-w-5xl bg-cyber-card/80 border border-cyber-red/40 rounded-2xl p-6 md:p-8 backdrop-blur-md shadow-2xl text-left relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 opacity-10 text-cyber-red pointer-events-none">
+            <i class="fa-solid fa-shield-virus text-9xl"></i>
+          </div>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-2 max-w-2xl">
+              <span class="px-3 py-1 bg-cyber-red/20 text-cyber-red border border-cyber-red/30 rounded-full font-mono text-xs font-bold uppercase tracking-wider inline-block">Immediate Protocol</span>
+              <h3 class="text-xl sm:text-2xl font-orbitron font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-triangle-exclamation text-cyber-red"></i> Witnessing or Facing an Active Cyber Attack?
+              </h3>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Disconnect from internet/WiFi immediately, preserve unedited screenshots or full email headers, do not pay ransoms, and log an official station complaint.
+              </p>
+            </div>
+            <button onclick="switchTab('guide')" class="px-6 py-3 rounded-xl bg-cyber-red hover:bg-red-600 text-white font-orbitron font-bold text-xs uppercase tracking-wider transition shrink-0 flex items-center gap-2 shadow-lg box-glow-red">
+              View Emergency Steps <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-5xl">
+          <div class="bg-cyber-card/50 border border-gray-800 p-4 rounded-xl text-center">
+            <div class="text-2xl sm:text-3xl font-orbitron font-bold text-cyber-accent">15/15</div>
+            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Crime Modules</div>
+          </div>
+          <div class="bg-cyber-card/50 border border-gray-800 p-4 rounded-xl text-center">
+            <div class="text-2xl sm:text-3xl font-orbitron font-bold text-cyber-blue">24/7</div>
+            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Dispatch Support</div>
+          </div>
+          <div class="bg-cyber-card/50 border border-gray-800 p-4 rounded-xl text-center">
+            <div class="text-2xl sm:text-3xl font-orbitron font-bold text-cyber-yellow">10 Steps</div>
+            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Interrogation Quiz</div>
+          </div>
+          <div class="bg-cyber-card/50 border border-gray-800 p-4 rounded-xl text-center">
+            <div class="text-2xl sm:text-3xl font-orbitron font-bold text-cyber-red">100%</div>
+            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Encrypted Portal</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- 2. CATEGORIES OF CRIME TAB (15 Interactive Cards with Hover Dynamic Animation) -->
+    <section id="tab-categories" class="hidden py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-accent/10 text-cyber-accent border border-cyber-accent/30 font-mono text-xs uppercase mb-3">
+          <i class="fa-solid fa-database"></i> Comprehensive Forensic Database
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-orbitron font-extrabold text-white tracking-wide uppercase">
+          CATEGORIES OF <span class="text-cyber-accent">CYBER CRIME</span>
+        </h2>
+        <p class="text-gray-400 text-sm sm:text-base mt-3">
+          Hover your mouse over any category to trigger dynamic live threat vector scanning animations. Click "History of Crime" to view legal codes, origin, and emergency steps.
+        </p>
+      </div>
+
+      <!-- Grid of 15 Cyber Crime Cards -->
+      <div id="crimeCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Cards injected dynamically via Javascript for code cleanliness -->
+      </div>
+    </section>
+
+
+    <!-- 3. ACTION GUIDE / EMERGENCY STEPS TAB -->
+    <section id="tab-guide" class="hidden py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-red/10 text-cyber-red border border-cyber-red/30 font-mono text-xs uppercase mb-3">
+          <i class="fa-solid fa-triangle-exclamation"></i> Emergency Reaction Protocol
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-orbitron font-extrabold text-white tracking-wide uppercase">
+          WHAT TO DO WHEN YOU <span class="text-cyber-red">WITNESS A CRIME</span>
+        </h2>
+        <p class="text-gray-400 text-sm sm:text-base mt-3">
+          Follow these standard operating police protocols immediately upon discovering cyber extortion, fraud, or data breaches.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Step 1 -->
+        <div class="bg-cyber-card border border-cyber-accent/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyber-accent/20 border border-cyber-accent text-cyber-accent font-orbitron font-black text-xl flex items-center justify-center mb-4">
+              01
+            </div>
+            <h3 class="text-lg font-orbitron font-bold text-white mb-2">Isolate & Contain</h3>
+            <p class="text-gray-400 text-xs leading-relaxed">
+              Disconnect infected or targeted computers from LAN cables, WiFi, and Bluetooth immediately to prevent malware lateral movement.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-800 text-[11px] font-mono text-cyber-accent flex items-center gap-2">
+            <i class="fa-solid fa-wifi"></i> Status: Cut Wireless Links
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-cyber-card border border-cyber-blue/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyber-blue/20 border border-cyber-blue text-cyber-blue font-orbitron font-black text-xl flex items-center justify-center mb-4">
+              02
+            </div>
+            <h3 class="text-lg font-orbitron font-bold text-white mb-2">Preserve Evidence</h3>
+            <p class="text-gray-400 text-xs leading-relaxed">
+              Take full-screen screenshots including clock/time stamps. Export email headers (.eml), save suspect wallet addresses, URLs, and phone numbers unedited.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-800 text-[11px] font-mono text-cyber-blue flex items-center gap-2">
+            <i class="fa-solid fa-camera"></i> Status: Unedited Logs
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-cyber-card border border-cyber-yellow/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyber-yellow/20 border border-cyber-yellow text-cyber-yellow font-orbitron font-black text-xl flex items-center justify-center mb-4">
+              03
+            </div>
+            <h3 class="text-lg font-orbitron font-bold text-white mb-2">Freeze Financials</h3>
+            <p class="text-gray-400 text-xs leading-relaxed">
+              If banking or credit details were compromised, instantly contact your financial institution hotline to freeze accounts and initiate chargeback holds.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-800 text-[11px] font-mono text-cyber-yellow flex items-center gap-2">
+            <i class="fa-solid fa-building-columns"></i> Status: Bank Freeze Active
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="bg-cyber-card border border-cyber-red/30 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyber-red/20 border border-cyber-red text-cyber-red font-orbitron font-black text-xl flex items-center justify-center mb-4">
+              04
+            </div>
+            <h3 class="text-lg font-orbitron font-bold text-white mb-2">File Official FIR</h3>
+            <p class="text-gray-400 text-xs leading-relaxed">
+              Complete the Police Station Interrogation Quiz on Safe Haven to unlock and submit your digital formal FIR for investigation.
+            </p>
+          </div>
+          <button onclick="switchTab('quiz')" class="mt-6 pt-2 pb-2 px-3 bg-cyber-red/20 border border-cyber-red text-cyber-red hover:bg-cyber-red hover:text-white rounded-lg text-xs font-orbitron font-bold transition flex items-center justify-center gap-2">
+            Start Quiz Now <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Toll-Free Helpline Emergency Cards -->
+      <div id="emergency" class="bg-gradient-to-r from-cyber-card via-gray-900 to-cyber-card border border-cyber-accent/40 rounded-2xl p-8 shadow-2xl">
+        <h3 class="text-2xl font-orbitron font-bold text-white mb-6 text-center uppercase tracking-wider">
+          <i class="fa-solid fa-phone-volume text-cyber-accent mr-2"></i> National Emergency Response Contacts
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="p-4 rounded-xl bg-black/40 border border-gray-800 flex items-center space-x-4">
+            <div class="p-3 bg-cyber-red/20 text-cyber-red rounded-lg text-2xl">
+              <i class="fa-solid fa-user-ninja"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-sm font-bold text-white">Cyber Crime Helpline</div>
+              <div class="text-cyber-accent font-mono text-lg font-bold">1991 / 911</div>
+              <div class="text-gray-400 text-[11px]">24/7 Rapid Incident Dispatch</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-black/40 border border-gray-800 flex items-center space-x-4">
+            <div class="p-3 bg-cyber-blue/20 text-cyber-blue rounded-lg text-2xl">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-sm font-bold text-white">Financial Fraud Intelligence</div>
+              <div class="text-cyber-blue font-mono text-lg font-bold">15-BANK-HELP</div>
+              <div class="text-gray-400 text-[11px]">Immediate Banking Lock</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-black/40 border border-gray-800 flex items-center space-x-4">
+            <div class="p-3 bg-cyber-accent/20 text-cyber-accent rounded-lg text-2xl">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-sm font-bold text-white">CERT Emergency Ops</div>
+              <div class="text-cyber-accent font-mono text-lg font-bold">cert@safehaven.gov</div>
+              <div class="text-gray-400 text-[11px]">Ransomware & Infrastructure</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 4. INTERACTIVE POLICE STATION INVESTIGATION QUIZ TAB (10 Questions) -->
+    <section id="tab-quiz" class="hidden py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-yellow/10 text-cyber-yellow border border-cyber-yellow/30 font-mono text-xs uppercase mb-3">
+          <i class="fa-solid fa-clipboard-check"></i> Police Interrogation Desk
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-orbitron font-extrabold text-white tracking-wide uppercase">
+          STATION INCIDENT <span class="text-cyber-yellow">INTERROGATION</span>
+        </h2>
+        <p class="text-gray-400 text-sm mt-2">
+          Answer the following 10 formal investigation questions regarding the crime incident. Completion unlocks the official Online FIR Application Form.
+        </p>
+      </div>
+
+      <!-- Quiz Card Container -->
+      <div class="bg-cyber-card border border-cyber-yellow/40 rounded-2xl p-6 sm:p-10 shadow-2xl relative scanline">
+        
+        <!-- Progress Bar -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center text-xs font-mono mb-2">
+            <span class="text-cyber-yellow font-bold uppercase" id="quizStepText">Question 1 of 10</span>
+            <span class="text-gray-400" id="quizPercentText">10% Completed</span>
+          </div>
+          <div class="w-full h-2 bg-gray-900 rounded-full overflow-hidden border border-gray-800">
+            <div id="quizProgressBar" class="h-full bg-gradient-to-r from-cyber-yellow to-amber-500 w-[10%] transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- Dynamic Question Form Container -->
+        <form id="policeQuizForm" onsubmit="handleQuizSubmit(event)">
+          <div id="quizQuestionsContainer">
+            <!-- Interrogation Questions will render dynamically here -->
+          </div>
+
+          <!-- Navigation Controls -->
+          <div class="flex justify-between items-center mt-8 pt-6 border-t border-gray-800">
+            <button type="button" id="prevQuizBtn" onclick="navigateQuiz(-1)" class="px-5 py-2.5 rounded-xl border border-gray-700 text-gray-400 hover:text-white hover:border-gray-500 text-xs font-orbitron font-bold uppercase transition disabled:opacity-30 disabled:cursor-not-allowed">
+              <i class="fa-solid fa-arrow-left mr-2"></i> Previous
+            </button>
+            <button type="button" id="nextQuizBtn" onclick="navigateQuiz(1)" class="px-6 py-2.5 rounded-xl bg-cyber-yellow hover:bg-amber-400 text-black text-xs font-orbitron font-extrabold uppercase transition shadow-lg flex items-center gap-2">
+              Next Question <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button type="submit" id="submitQuizBtn" class="hidden px-6 py-2.5 rounded-xl bg-cyber-accent hover:bg-emerald-400 text-black text-xs font-orbitron font-extrabold uppercase transition shadow-lg box-glow-cyan">
+              Submit & Unlock FIR Portal <i class="fa-solid fa-key ml-2"></i>
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+
+    <!-- 5. ONLINE FIR APPLICATION PAGE (GATED UNLESS QUIZ COMPLETED) -->
+    <section id="tab-fir" class="hidden py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      
+      <!-- GATED WARNING LOCK SCREEN (Visible when FIR is locked) -->
+      <div id="firLockedScreen" class="block bg-cyber-card border border-cyber-red/50 rounded-2xl p-8 sm:p-12 text-center shadow-2xl relative overflow-hidden">
+        <div class="w-20 h-20 mx-auto rounded-full bg-cyber-red/20 border-2 border-cyber-red flex items-center justify-center text-cyber-red text-3xl mb-6 animate-pulse">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-orbitron font-extrabold text-white uppercase tracking-wider mb-3">
+          FIR APPLICATION PORTAL <span class="text-cyber-red">LOCKED</span>
+        </h2>
+        <p class="text-gray-300 max-w-xl mx-auto text-sm leading-relaxed mb-8">
+          To prevent fraudulent or incomplete law enforcement filings, citizens are required to complete the 10-Question Police Station Interrogation Quiz before logging an official cyber crime FIR.
+        </p>
+        <button onclick="switchTab('quiz')" class="px-8 py-4 rounded-xl bg-cyber-red hover:bg-red-600 text-white font-orbitron font-bold text-xs uppercase tracking-wider transition shadow-lg box-glow-red inline-flex items-center gap-3">
+          <i class="fa-solid fa-clipboard-check text-base"></i> Go To Interrogation Quiz Now
+        </button>
+      </div>
+
+      <!-- UNLOCKED FIR FORM CONTAINER -->
+      <div id="firUnlockedScreen" class="hidden">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-accent/10 text-cyber-accent border border-cyber-accent/30 font-mono text-xs uppercase mb-3">
+            <i class="fa-solid fa-lock-open text-cyber-accent"></i> Access Authorized
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-orbitron font-extrabold text-white tracking-wide uppercase">
+            FORMAL ONLINE <span class="text-cyber-accent">FIR APPLICATION</span>
+          </h2>
+          <p class="text-gray-400 text-sm mt-2">
+            Official Law Enforcement Complaint Form. Please fill in all verified details for police investigation dispatch.
+          </p>
+        </div>
+
+        <form id="firForm" onsubmit="handleFirSubmit(event)" class="bg-cyber-card border border-cyber-accent/30 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+          
+          <!-- Section 1: Applicant Information -->
+          <div>
+            <h3 class="text-lg font-orbitron font-bold text-cyber-accent border-b border-gray-800 pb-3 mb-6 flex items-center gap-2">
+              <i class="fa-solid fa-id-card"></i> 1. Complainant Personal Details
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Full Name *</label>
+                <input type="text" id="firFullName" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="John Doe">
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Age *</label>
+                <input type="number" id="firAge" required min="12" max="110" class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="32">
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Phone Number *</label>
+                <input type="tel" id="firPhone" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="+1 (555) 019-2834">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Email Address *</label>
+                <input type="email" id="firEmail" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="complainant@domain.com">
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Cyber Crime Category *</label>
+                <select id="firCategory" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition">
+                  <!-- Injected dynamically -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Timestamp & Incident Timeline -->
+          <div>
+            <h3 class="text-lg font-orbitron font-bold text-cyber-accent border-b border-gray-800 pb-3 mb-6 flex items-center gap-2">
+              <i class="fa-solid fa-clock"></i> 2. Incident Date, Time & Day
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Day *</label>
+                <select id="firDay" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-3 py-3 text-white text-sm focus:outline-none">
+                  <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+                  <option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Date *</label>
+                <input type="number" id="firDateNum" required min="1" max="31" class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-3 py-3 text-white text-sm focus:outline-none" placeholder="25">
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Month *</label>
+                <select id="firMonth" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-3 py-3 text-white text-sm focus:outline-none">
+                  <option>January</option><option>February</option><option>March</option><option>April</option>
+                  <option>May</option><option>June</option><option>July</option><option>August</option>
+                  <option>September</option><option>October</option><option>November</option><option>December</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Year *</label>
+                <input type="number" id="firYear" required min="2000" max="2026" value="2026" class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-3 py-3 text-white text-sm focus:outline-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Technical & Suspect Details -->
+          <div>
+            <h3 class="text-lg font-orbitron font-bold text-cyber-accent border-b border-gray-800 pb-3 mb-6 flex items-center gap-2">
+              <i class="fa-solid fa-crosshairs"></i> 3. Attack Vector & Suspect Info
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Cyber Weapon / Vector Used *</label>
+                <input type="text" id="firWeapon" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="Phishing Link, Keylogger, Fake APK, Spoofed Email">
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Suspect Details (IP / Handles / Wallet / Phone)</label>
+                <input type="text" id="firSuspect" class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl px-4 py-3 text-white text-sm focus:outline-none transition" placeholder="e.g., Telegram @hacker, IP 192.168.x.x, BTC wallet">
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Detailed Incident Narrative -->
+          <div>
+            <h3 class="text-lg font-orbitron font-bold text-cyber-accent border-b border-gray-800 pb-3 mb-6 flex items-center gap-2">
+              <i class="fa-solid fa-file-lines"></i> 4. Full Statement & Incident Narrative
+            </h3>
+            <div>
+              <label class="block text-xs font-mono text-gray-400 mb-2 uppercase">Detailed Incident Narrative *</label>
+              <textarea id="firNarrative" rows="5" required class="w-full bg-cyber-black border border-gray-800 focus:border-cyber-accent rounded-xl p-4 text-white text-sm focus:outline-none transition" placeholder="Describe chronologically what occurred, how the suspect made contact, financial losses, and evidence captured..."></textarea>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-cyber-accent to-emerald-400 text-black font-orbitron font-extrabold text-sm uppercase tracking-wider hover:opacity-90 transition shadow-lg box-glow-cyan flex items-center justify-center gap-3">
+              <i class="fa-solid fa-shield-arrow-down text-lg"></i> Submit Official FIR & Generate Receipt Ticket
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-cyber-black border-t border-gray-800 py-8 px-4 sm:px-6 lg:px-8 mt-16 font-mono text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+      <div>
+        <div class="text-white font-orbitron font-bold text-sm flex items-center justify-center md:justify-start gap-2">
+          <i class="fa-solid fa-shield-halved text-cyber-accent"></i> SAFE HAVEN CYBER POLICE PORTAL
+        </div>
+        <p class="mt-1">Encrypted Law Enforcement Information Management System &copy; 2026. All rights reserved.</p>
+      </div>
+      <div class="flex items-center space-x-6">
+        <span class="text-cyber-accent flex items-center gap-1"><i class="fa-solid fa-lock"></i> SSL 256-Bit Encrypted</span>
+        <span class="text-gray-400">Jurisdiction: Global Cyber Crime Command</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- CRIME HISTORY & EMERGENCY PROTOCOL MODAL -->
+  <div id="crimeModal" class="fixed inset-0 z-50 hidden bg-black/85 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-cyber-card border border-cyber-accent/50 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl relative">
+      
+      <!-- Modal Header with dynamic Canvas Background -->
+      <div class="relative h-48 rounded-t-2xl overflow-hidden border-b border-gray-800">
+        <canvas id="modalCanvas" class="absolute inset-0 w-full h-full"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-t from-cyber-card via-cyber-card/40 to-transparent"></div>
+        <button onclick="closeCrimeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 border border-gray-700 text-white flex items-center justify-center hover:bg-cyber-red transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+        <div class="absolute bottom-4 left-6 z-10 flex items-center space-x-4">
+          <div id="modalIconBox" class="w-14 h-14 rounded-xl bg-cyber-accent/20 border border-cyber-accent text-cyber-accent flex items-center justify-center text-2xl shadow-lg">
+            <i class="fa-solid fa-bug"></i>
+          </div>
+          <div>
+            <span id="modalCodeBadge" class="px-2.5 py-0.5 rounded-full bg-cyber-accent/20 text-cyber-accent border border-cyber-accent/30 font-mono text-[10px] font-bold uppercase">Section 419</span>
+            <h3 id="modalTitle" class="text-2xl sm:text-3xl font-orbitron font-extrabold text-white">Ransomware</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 sm:p-8 space-y-6">
+        
+        <!-- Pioneer / Origin & Legal Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-cyber-black/60 border border-gray-800 p-4 rounded-xl">
+            <div class="text-xs font-mono text-gray-400 uppercase mb-1"><i class="fa-solid fa-earth-americas text-cyber-accent mr-1"></i> Historical Origin & Pioneer Country</div>
+            <div id="modalOrigin" class="text-white font-semibold text-sm">First reported in USA (1989 - AIDS Trojan)</div>
+          </div>
+          <div class="bg-cyber-black/60 border border-gray-800 p-4 rounded-xl">
+            <div class="text-xs font-mono text-gray-400 uppercase mb-1"><i class="fa-solid fa-gavel text-cyber-red mr-1"></i> Penal Code & Global Penalty</div>
+            <div id="modalPenalCode" class="text-cyber-red font-semibold text-sm">Up to 14 Years Imprisonment & Asset Forfeiture</div>
+          </div>
+        </div>
+
+        <!-- Historical Overview -->
+        <div>
+          <h4 class="text-sm font-orbitron font-bold text-cyber-accent uppercase mb-2">History & Legal Classification</h4>
+          <p id="modalDescription" class="text-gray-300 text-sm leading-relaxed">
+            Detailed history description...
+          </p>
+        </div>
+
+        <!-- Step-by-Step Emergency Protocol for this Crime -->
+        <div class="bg-cyber-red/10 border border-cyber-red/30 rounded-xl p-5">
+          <h4 class="text-sm font-orbitron font-bold text-cyber-red uppercase mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-shield-cat"></i> Emergency Reaction Protocol (If Witnessed / Affected)
+          </h4>
+          <ul id="modalProtocolList" class="space-y-2 text-xs text-gray-300 font-sans list-disc list-inside">
+            <!-- Dynamic Protocol bullets -->
+          </ul>
+        </div>
+
+        <!-- Close Button -->
+        <div class="flex justify-end pt-2">
+          <button onclick="closeCrimeModal()" class="px-6 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-orbitron text-xs font-bold uppercase transition">
+            Close Information Window
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- OFFICIAL GENERATED FIR RECEIPT / TICKET MODAL -->
+  <div id="firReceiptModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-slate-900 border-2 border-cyber-accent rounded-2xl w-full max-w-3xl p-6 sm:p-10 text-gray-200 shadow-2xl relative font-sans">
+      
+      <!-- Receipt Top Branding Header -->
+      <div class="border-b-2 border-cyber-accent/40 pb-6 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div>
+          <div class="font-orbitron font-black text-2xl text-white tracking-widest uppercase flex items-center gap-2 justify-center sm:justify-start">
+            <i class="fa-solid fa-shield-halved text-cyber-accent"></i> OFFICIAL POLICE FIR
+          </div>
+          <p class="text-xs font-mono text-cyber-accent uppercase">Safe Haven Cyber Crime Command &bull; Complaint Receipt</p>
+        </div>
+        <div class="text-right">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 rounded-full font-mono text-xs font-bold uppercase">REGISTERED & VERIFIED</span>
+          <div class="text-[11px] font-mono text-gray-400 mt-1" id="receiptTimestamp">Date: Oct 25, 2026</div>
+        </div>
+      </div>
+
+      <!-- Receipt Content Body -->
+      <div class="space-y-6 text-sm">
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-black/50 p-4 rounded-xl border border-gray-800 font-mono text-xs">
+          <div>
+            <span class="text-gray-500 uppercase block">FIR Hash ID</span>
+            <span id="receiptHash" class="text-cyber-accent font-bold">#SH-9834-2026</span>
+          </div>
+          <div>
+            <span class="text-gray-500 uppercase block">Complainant Name</span>
+            <span id="receiptName" class="text-white font-bold">John Doe</span>
+          </div>
+          <div>
+            <span class="text-gray-500 uppercase block">Crime Category</span>
+            <span id="receiptCategory" class="text-cyber-yellow font-bold">Ransomware</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-black/30 p-4 rounded-xl border border-gray-800">
+            <h5 class="font-orbitron text-xs font-bold text-cyber-accent uppercase mb-2">Complainant Information</h5>
+            <p class="text-xs text-gray-300"><strong>Age:</strong> <span id="receiptAge">32</span></p>
+            <p class="text-xs text-gray-300"><strong>Phone:</strong> <span id="receiptPhone">+15550192834</span></p>
+            <p class="text-xs text-gray-300"><strong>Email:</strong> <span id="receiptEmail">john@domain.com</span></p>
+          </div>
+          <div class="bg-black/30 p-4 rounded-xl border border-gray-800">
+            <h5 class="font-orbitron text-xs font-bold text-cyber-accent uppercase mb-2">Incident Timeline & Vector</h5>
+            <p class="text-xs text-gray-300"><strong>Timeline:</strong> <span id="receiptTimeline">Sunday, 25 October 2026</span></p>
+            <p class="text-xs text-gray-300"><strong>Vector:</strong> <span id="receiptWeapon">Phishing Trojan</span></p>
+            <p class="text-xs text-gray-300"><strong>Suspect:</strong> <span id="receiptSuspect">Unknown IP</span></p>
+          </div>
+        </div>
+
+        <div class="bg-black/30 p-4 rounded-xl border border-gray-800">
+          <h5 class="font-orbitron text-xs font-bold text-cyber-accent uppercase mb-1">Police Statement Narrative</h5>
+          <p id="receiptNarrative" class="text-xs text-gray-300 leading-relaxed italic">
+            "Complainant reported encrypted server drives with ransom note..."
+          </p>
+        </div>
+
+        <!-- QR Verification Code Canvas + Stamp -->
+        <div class="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-gray-800 gap-4">
+          <div class="flex items-center space-x-4">
+            <canvas id="receiptQrCanvas" class="w-20 h-20 bg-white p-1 rounded-lg border border-cyber-accent"></canvas>
+            <div>
+              <div class="font-orbitron text-xs font-bold text-white">QR Forensic Verification</div>
+              <p class="text-[10px] text-gray-400 font-mono">Scan QR code using station scanner to track investigation status.</p>
+            </div>
+          </div>
+          <div class="text-center sm:text-right font-mono text-[10px] text-gray-500">
+            <p class="text-cyber-accent font-bold">DIGITALLY SIGNED BY POLICE DESK</p>
+            <p>Cryptographic Auth: 0x8F...39A1</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-end gap-3">
+        <button onclick="window.print()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-orbitron text-xs font-bold uppercase transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-print"></i> Print Official Receipt
+        </button>
+        <button onclick="closeReceiptModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-cyber-accent hover:bg-emerald-400 text-black font-orbitron text-xs font-extrabold uppercase transition shadow-lg box-glow-cyan">
+          Done & Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    /* ==========================================================================
+       1. CRIMES FORENSIC DATA (15 COMPLETE CATEGORIES)
+       ========================================================================== */
+    const CRIME_DATABASE = [
+      {
+        id: 'phishing',
+        title: 'Phishing Attacks',
+        code: 'PE-SEC-419',
+        icon: 'fa-fish-fins',
+        color: '#00ffcc',
+        desc: 'Deceptive trickery using fraudulent emails, fake login portals, or spoofed SMS messages to steal sensitive passwords, credentials, and banking PINs.',
+        origin: 'United States & UK (Early 1990s - AOL Accounts)',
+        penalCode: 'Penal Code Sec 419/420 - Up to 7 Years Imprisonment & Fines',
+        protocol: [
+          'Never click links in unexpected emails or urgency-driven SMS texts.',
+          'Verify sender domain headers carefully (e.g., check @bank.com vs @bank-security.net).',
+          'Enable Multi-Factor Authentication (MFA/2FA) on all financial and email portals.'
+        ]
+      },
+      {
+        id: 'ransomware',
+        title: 'Ransomware Extortion',
+        code: 'PE-SEC-383',
+        icon: 'fa-lock',
+        color: '#ff0055',
+        desc: 'Malicious encryption of hard drives and databases by cyber extortionists who demand cryptocurrency ransoms in exchange for decryption keys.',
+        origin: 'USA / International (1989 - AIDS Trojan by Dr. Joseph Popp)',
+        penalCode: 'Penal Code Sec 383/384 Extortion - Up to 14 Years Prison',
+        protocol: [
+          'Immediately disconnect computer cables & WiFi to stop network spread.',
+          'Do NOT pay cryptocurrency ransoms as decryption is rarely guaranteed.',
+          'Restore clean system backups from offline isolated cold-storage drives.'
+        ]
+      },
+      {
+        id: 'identity-theft',
+        title: 'Identity Theft',
+        code: 'PE-SEC-463',
+        icon: 'fa-user-ninja',
+        color: '#0088ff',
+        desc: 'Unauthorized acquisition and fraudulent use of a citizen’s personal identification, social security numbers, or passports to commit crimes.',
+        origin: 'Global (Pioneered in USA & Europe early internet era 1998)',
+        penalCode: 'Identity Theft Fraud Act - Up to 10 Years Imprisonment',
+        protocol: [
+          'Place an immediate credit freeze with national credit rating agencies.',
+          'File an official Safe Haven FIR report and notify passport/national ID registry.',
+          'Change passwords and revoke active login sessions across all services.'
+        ]
+      },
+      {
+        id: 'cyber-stalking',
+        title: 'Cyber Stalking & Harassment',
+        code: 'PE-SEC-506',
+        icon: 'fa-eye',
+        color: '#ffcc00',
+        desc: 'Persistent unwanted online monitoring, harassment, threats, or intimidation using social media platforms, messaging apps, and spyware.',
+        origin: 'USA (1999 - Cyberstalking Prohibition Act pioneer)',
+        penalCode: 'Protection from Online Stalking Act - Up to 5 Years Jail',
+        protocol: [
+          'Do NOT delete harassing messages; capture full screenshot timestamps.',
+          'Block suspect social media accounts and set profile privacy to strict private.',
+          'Submit suspect IP handles and chat logs to Cyber Law Enforcement.'
+        ]
+      },
+      {
+        id: 'financial-fraud',
+        title: 'Financial & Credit Fraud',
+        code: 'PE-SEC-420',
+        icon: 'fa-credit-card',
+        color: '#9d4edd',
+        desc: 'Unauthorized wire transfers, unauthorized credit card skimming, fake investment Ponzi schemes, and fraudulent e-commerce payment portals.',
+        origin: 'Global (Accelerated worldwide with e-commerce expansion 2000s)',
+        penalCode: 'Bank Fraud & Wire Extortion Act - Up to 10 Years Imprisonment',
+        protocol: [
+          'Contact bank customer service instantly to block compromised cards.',
+          'Request emergency transaction reversal / chargeback holds.',
+          'Log unauthorized merchant transaction details into your FIR filing.'
+        ]
+      },
+      {
+        id: 'cryptojacking',
+        title: 'Cryptojacking',
+        code: 'PE-SEC-378',
+        icon: 'fa-coins',
+        color: '#00ffcc',
+        desc: 'Secret unauthorized hijacking of a victim’s CPU/GPU computing power through browser scripts or malware to mine Monero or Bitcoin.',
+        origin: 'International (2017 - CoinHive Script popularity era)',
+        penalCode: 'Unauthorized Computer Access Act - Up to 3 Years Imprisonment',
+        protocol: [
+          'Close browser tabs exhibiting abnormally high 100% CPU usage.',
+          'Install trusted Script Blockers and browser security extensions.',
+          'Run a comprehensive full antivirus scanner to remove persistent miners.'
+        ]
+      },
+      {
+        id: 'data-breach',
+        title: 'Corporate Data Breach',
+        code: 'PE-SEC-406',
+        icon: 'fa-database',
+        color: '#ff0055',
+        desc: 'Unlawful extraction, leak, or exposure of confidential customer databases, medical records, or corporate trade secrets.',
+        origin: 'USA & Estonia (Major enterprise breach waves 2005-2010)',
+        penalCode: 'Data Protection & Privacy Act - Multi-Million Fines & Jail',
+        protocol: [
+          'Check if your email appears on breach telemetry databases.',
+          'Rotate all master account passwords immediately.',
+          'Monitor bank account transactions for secondary credential abuse.'
+        ]
+      },
+      {
+        id: 'sim-swapping',
+        title: 'SIM Swapping Attack',
+        code: 'PE-SEC-419B',
+        icon: 'fa-sim-card',
+        color: '#0088ff',
+        desc: 'Tricking mobile telecom carriers into transferring a target’s phone number to a hacker SIM card to intercept SMS 2FA security codes.',
+        origin: 'Europe & USA (2016 crypto investor targeting wave)',
+        penalCode: 'Telecom Fraud & Hijacking Act - Up to 8 Years Prison',
+        protocol: [
+          'Contact mobile network provider if your phone suddenly loses cellular signal.',
+          'Set a confidential PIN/Passcode with your telecom operator account.',
+          'Switch 2FA authentication from SMS text messages to Authenticator Apps.'
+        ]
+      },
+      {
+        id: 'ddos-attack',
+        title: 'DDoS Cyber Attack',
+        code: 'PE-SEC-430',
+        icon: 'fa-network-wired',
+        color: '#ffcc00',
+        desc: 'Distributed Denial of Service attacks flooding target web servers or government portals with millions of rogue botnet requests to crash services.',
+        origin: 'USA (1999 - MafiaBoy DDoS incidents)',
+        penalCode: 'Cyber Sabotage Act - Up to 10 Years Heavy Incarceration',
+        protocol: [
+          'Enable enterprise Web Application Firewalls (WAF) and DDoS protection (e.g., Cloudflare).',
+          'Reroute network traffic through scrubbing centers to filter bot packets.',
+          'Log attacker origin IPs for international police traceback.'
+        ]
+      },
+      {
+        id: 'mitm-attack',
+        title: 'Man-in-the-Middle (MitM)',
+        code: 'PE-SEC-379',
+        icon: 'fa-tower-cell',
+        color: '#9d4edd',
+        desc: 'Secret interception of unencrypted communication traffic over rogue public WiFi access points to steal cookies, session tokens, and passwords.',
+        origin: 'Global (Wireless networking era 2001)',
+        penalCode: 'Eavesdropping & Wiretapping Act - Up to 5 Years Prison',
+        protocol: [
+          'Avoid logging into bank portals on untrusted public open WiFi networks.',
+          'Always verify HTTPS SSL padlock certificates in browser address bar.',
+          'Utilize encrypted Virtual Private Networks (VPN) when traveling.'
+        ]
+      },
+      {
+        id: 'cyber-extortion',
+        title: 'Sextortion & Cyber Extortion',
+        code: 'PE-SEC-384',
+        icon: 'fa-user-lock',
+        color: '#ff0055',
+        desc: 'Coercing victims into paying money under threat of releasing sensitive private photographs, personal videos, or compromised documents.',
+        origin: 'Global (Accelerated with camera smartphones 2012)',
+        penalCode: 'Aggravated Cyber Extortion Code - Up to 12 Years Imprisonment',
+        protocol: [
+          'Do NOT send money or give into demands; extortionists often request more.',
+          'Preserve all message thread logs, payment account handles, and URLs.',
+          'Report suspect social accounts to law enforcement emergency desk.'
+        ]
+      },
+      {
+        id: 'deepfake-fraud',
+        title: 'Deepfake AI Fraud',
+        code: 'PE-SEC-465',
+        icon: 'fa-robot',
+        color: '#00ffcc',
+        desc: 'Synthesizing realistic artificial intelligence voice clones or video imagery of relatives or corporate executives to trick victims into wiring funds.',
+        origin: 'Global (AI Deep Learning era 2018-2023)',
+        penalCode: 'AI Impersonation Fraud Code - Up to 7 Years Jail & Fines',
+        protocol: [
+          'Establish a secret verbal passphrase with family members for phone calls.',
+          'Call back the relative directly on a verified saved phone line.',
+          'Analyze video caller for unnatural eye blinking or lip synchronization lag.'
+        ]
+      },
+      {
+        id: 'online-grooming',
+        title: 'Online Child Exploitation',
+        code: 'PE-SEC-376C',
+        icon: 'fa-child-reaching',
+        color: '#ff0055',
+        desc: 'Targeting, manipulating, or exploiting minors through online gaming chats, messaging platforms, or social media.',
+        origin: 'Global (Internet chatrooms era 1995)',
+        penalCode: 'Child Protection Cyber Act - Life Imprisonment & Strict Penalties',
+        protocol: [
+          'Report immediately to national cyber police & child emergency hotlines.',
+          'Do NOT delete chat history or suspect profile IDs.',
+          'Enable strict parental controls and monitor minor chat safety.'
+        ]
+      },
+      {
+        id: 'iot-hacking',
+        title: 'IoT & Smart Device Hacking',
+        code: 'PE-SEC-380',
+        icon: 'fa-plug',
+        color: '#0088ff',
+        desc: 'Unauthorized remote compromise of home smart security cameras, routers, or industrial sensors due to default manufacturer passwords.',
+        origin: 'Global (Mirai Botnet wave 2016)',
+        penalCode: 'Unlawful Surveillance Act - Up to 5 Years Imprisonment',
+        protocol: [
+          'Change default router and smart camera admin passwords immediately.',
+          'Isolate smart devices on a separate secondary guest WiFi network.',
+          'Update smart device firmware regularly to patch vulnerabilities.'
+        ]
+      },
+      {
+        id: 'cyber-terrorism',
+        title: 'Cyber Terrorism & Sabotage',
+        code: 'PE-SEC-121',
+        icon: 'fa-skull-crossbones',
+        color: '#ff0055',
+        desc: 'State-sponsored or extremist cyber warfare targeting national power grids, nuclear facilities, traffic systems, or defense networks.',
+        origin: 'Estonia / Iran (Stuxnet malware incident 2010)',
+        penalCode: 'High Treason & Cyber Warfare Code - Mandatory Maximum Sentence',
+        protocol: [
+          'Initiate national Critical Infrastructure Protection (CIP) response.',
+          'Isolate operational technology (OT) systems completely air-gapped from internet.',
+          'Notify National Emergency CERT Response Unit.'
+        ]
+      }
+    ];
+
+    /* ==========================================================================
+       2. POLICE INTERROGATION QUIZ QUESTIONS (10 FORMAL QUESTIONS)
+       ========================================================================== */
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        title: "Q1: Incident Timestamp & Occurrence Time",
+        question: "When did the cyber crime incident or suspicious activity occur?",
+        type: "select",
+        options: ["Within the last 24 Hours", "1 to 3 Days Ago", "Past Week", "More than 1 Month Ago", "Ongoing Active Attack"]
+      },
+      {
+        id: 2,
+        title: "Q2: Attack Digital Vector / Platform",
+        question: "Where did the incident primarily take place?",
+        type: "select",
+        options: ["Email Inbox (Phishing/Trojan)", "Social Media Platform (Instagram/Facebook/X)", "Mobile Messaging (WhatsApp/SMS/Telegram)", "Banking App / Crypto Wallet", "E-Commerce Website", "Corporate Server / Router Network"]
+      },
+      {
+        id: 3,
+        title: "Q3: Direct Observation & Witness Status",
+        question: "Did you directly experience this incident or witness it secondary?",
+        type: "radio",
+        options: ["I am the direct victim/owner of compromised asset", "I witnessed it happening to a family member/colleague", "I discovered exposed data/breach on a public domain"]
+      },
+      {
+        id: 4,
+        title: "Q4: Malicious Cyber Mechanism Used",
+        question: "What weapon or mechanism did the attacker utilize?",
+        type: "select",
+        options: ["Deceptive Phishing Link / Fake Portal", "Ransomware File / Trojan Executable", "Unauthorized SIM Swap / Intercepted OTP", "Unencrypted WiFi / MitM Eavesdropping", "AI Deepfake Voice/Video Clone", "Unknown / Fraudulent Transfer"]
+      },
+      {
+        id: 5,
+        title: "Q5: Suspect Identifiers & Telemetry",
+        question: "Do you possess any identifying information regarding the suspect?",
+        type: "checkbox",
+        options: ["Suspect Phone Number / WhatsApp ID", "Suspect Email Address or Domain", "IP Address / Server Log", "Crypto Wallet Address / Bank Account #", "Social Media Handle @username", "No suspect identifiers available"]
+      },
+      {
+        id: 6,
+        title: "Q6: Magnitude of Loss / Damages",
+        question: "What degree of monetary or informational impact occurred?",
+        type: "radio",
+        options: ["Direct Financial Monetary Loss", "Compromised Passwords / Social Accounts", "Extortion Threat / Stolen Private Data", "System Downtime / Encrypted Hard Drive", "No monetary loss yet (Preventative Warning)"]
+      },
+      {
+        id: 7,
+        title: "Q7: Containment & System Isolation",
+        question: "Have you taken immediate emergency isolation steps?",
+        type: "radio",
+        options: ["Yes, disconnected network/WiFi and changed passwords", "Frozen bank cards with customer support", "No isolation steps taken yet"]
+      },
+      {
+        id: 8,
+        title: "Q8: Digital Forensic Evidence Preservation",
+        question: "Have unedited digital evidence logs been saved for police analysis?",
+        type: "checkbox",
+        options: ["Full-screen screenshots with timestamps", "Email header logs (.eml format)", "Chat message transcripts", "Bank statement / Payment receipts", "Malicious file samples / URL links"]
+      },
+      {
+        id: 9,
+        title: "Q9: Prior Law Enforcement Notification",
+        question: "Has this incident been reported to another station or agency?",
+        type: "radio",
+        options: ["No, Safe Haven is my first formal filing", "Yes, reported to local physical police station", "Yes, reported to bank security desk"]
+      },
+      {
+        id: 10,
+        title: "Q10: Legal Declaration & Consent Statement",
+        question: "Do you solemnly declare that all provided statements are true and accurate under cyber law penalties?",
+        type: "radio",
+        options: ["I Agree & Declare All Information Is Truthful", "I Request Legal Counsel Before Final Filing"]
+      }
+    ];
+
+    /* ==========================================================================
+       3. GLOBAL APP STATE & VARIABLES
+       ========================================================================== */
+    let isQuizCompleted = false;
+    let currentQuizStep = 0;
+    let quizAnswers = {};
+    let activeTypewriterIndex = 0;
+    let activeTypewriterChar = 0;
+    let isDeletingTypewriter = false;
+    const typewriterPhrases = [
+      "Empowering Digital Safety Across the Globe...",
+      "Real-Time Forensic Logging & Incident Analysis...",
+      "24/7 Law Enforcement Cyber Intelligence Portal...",
+      "Protecting Citizens from Phishing, Ransomware & Fraud..."
+    ];
+
+    /* ==========================================================================
+       4. INITIALIZATION & EVEN LISTENERS
+       ========================================================================== */
+    window.onload = function() {
+      // Initialize Lucide Icons
+      if (window.lucide) lucide.createIcons();
+
+      // Start Hero Matrix Canvas Background Animation
+      initHeroCanvas();
+
+      // Populate Crime Cards Grid (15 Cards)
+      renderCrimeCards();
+
+      // Populate FIR Form Category Dropdown
+      populateFirCategories();
+
+      // Render First Quiz Question
+      renderQuizQuestion();
+
+      // Start Typewriter Animation Subtitle
+      typewriterLoop();
+
+      // Play Voice Broadcast dispatch upon user first click anywhere
+      document.addEventListener('click', handleFirstUserGesture, { once: true });
+    };
+
+    function handleFirstUserGesture() {
+      playDispatchVoice();
+      const banner = document.getElementById('audioConsentBanner');
+      if (banner) {
+        banner.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => banner.remove(), 500);
+      }
+    }
+
+    /* ==========================================================================
+       5. WEB AUDIO SYNTHESIZER VOICE DISPATCH (ECHO RADIO BROADCAST)
+       ========================================================================== */
+    function playDispatchVoice() {
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel(); // Stop ongoing speech
+
+          const text = "Welcome to Safe Haven. How can we help you?";
+          const utterance = new SpeechSynthesisUtterance(text);
+          
+          utterance.rate = 0.9;
+          utterance.pitch = 1.1; // Female pitch tone
+
+          // Find best English female voice
+          const voices = window.speechSynthesis.getVoices();
+          const femaleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Zira') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Victoria')));
+          if (femaleVoice) {
+            utterance.voice = femaleVoice;
+          }
+
+          // Create radio beep sound before speech using Web Audio Context
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            const ctx = new AudioContext();
+            
+            // Station Mic Beep
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.15);
+            gain.gain.setValueAtTime(0.1, ctx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.15);
+          }
+
+          window.speechSynthesis.speak(utterance);
+        }
+      } catch (e) {
+        console.log("Audio speech synthesis initialized:", e);
+      }
+    }
+
+    /* ==========================================================================
+       6. TYPEWRITER SUBTITLE ANIMATION LOGIC
+       ========================================================================== */
+    function typewriterLoop() {
+      const targetElement = document.getElementById('typewriterText');
+      if (!targetElement) return;
+
+      const currentPhrase = typewriterPhrases[activeTypewriterIndex];
+
+      if (isDeletingTypewriter) {
+        targetElement.textContent = currentPhrase.substring(0, activeTypewriterChar - 1);
+        activeTypewriterChar--;
+      } else {
+        targetElement.textContent = currentPhrase.substring(0, activeTypewriterChar + 1);
+        activeTypewriterChar++;
+      }
+
+      let speed = isDeletingTypewriter ? 30 : 60;
+
+      if (!isDeletingTypewriter && activeTypewriterChar === currentPhrase.length) {
+        speed = 2200; // Pause at end of text
+        isDeletingTypewriter = true;
+      } else if (isDeletingTypewriter && activeTypewriterChar === 0) {
+        isDeletingTypewriter = false;
+        activeTypewriterIndex = (activeTypewriterIndex + 1) % typewriterPhrases.length;
+        speed = 400;
+      }
+
+      setTimeout(typewriterLoop, speed);
+    }
+
+    /* ==========================================================================
+       7. HERO SECTION MATRIX CANVAS ANIMATION
+       ========================================================================== */
+    function initHeroCanvas() {
+      const canvas = document.getElementById('heroCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const columns = Math.floor(canvas.width / 20);
+      const drops = Array(columns).fill(1);
+      const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*';
+
+      function draw() {
+        ctx.fillStyle = 'rgba(3, 7, 18, 0.15)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#00ffcc';
+        ctx.font = '12px Share Tech Mono';
+
+        for (let i = 0; i < drops.length; i++) {
+          const text = chars.charAt(Math.floor(Math.random() * chars.length));
+          const x = i * 20;
+          const y = drops[i] * 20;
+
+          // Glowing accent for leading drops
+          if (Math.random() > 0.85) {
+            ctx.fillStyle = '#ffffff';
+          } else {
+            ctx.fillStyle = '#00ffcc33';
+          }
+
+          ctx.fillText(text, x, y);
+
+          if (y > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+
+        // Draw dynamic radar target scanner lines
+        const time = Date.now() * 0.001;
+        ctx.strokeStyle = 'rgba(0, 255, 204, 0.08)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        const scanY = (Math.sin(time) * 0.5 + 0.5) * canvas.height;
+        ctx.moveTo(0, scanY);
+        ctx.lineTo(canvas.width, scanY);
+        ctx.stroke();
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }
+
+    /* ==========================================================================
+       8. RENDER 15 CRIME CARDS WITH HOVER ANIMATION CANVAS
+       ========================================================================== */
+    function renderCrimeCards() {
+      const container = document.getElementById('crimeCardsGrid');
+      if (!container) return;
+
+      container.innerHTML = CRIME_DATABASE.map(crime => `
+        <div class="bg-cyber-card border border-gray-800 hover:border-cyber-accent rounded-2xl p-6 transition-all duration-300 relative group flex flex-col justify-between overflow-hidden shadow-xl"
+             onmouseenter="startCardAnimation('${crime.id}')" onmouseleave="stopCardAnimation('${crime.id}')">
+          
+          <!-- Background Canvas for Hover Effect -->
+          <canvas id="card-canvas-${crime.id}" class="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-30 transition-opacity pointer-events-none"></canvas>
+
+          <div>
+            <!-- Header Icon & Code -->
+            <div class="flex items-center justify-between mb-4 relative z-10">
+              <div class="w-12 h-12 rounded-xl bg-cyber-black border border-gray-700 group-hover:border-cyber-accent text-cyber-accent flex items-center justify-center text-xl transition-all shadow-md">
+                <i class="fa-solid ${crime.icon}"></i>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-black/60 text-gray-400 font-mono text-[10px] border border-gray-800 group-hover:text-cyber-accent group-hover:border-cyber-accent/40">
+                ${crime.code}
+              </span>
+            </div>
+
+            <h3 class="text-xl font-orbitron font-bold text-white mb-2 group-hover:text-cyber-accent transition relative z-10">
+              ${crime.title}
+            </h3>
+
+            <p class="text-gray-400 text-xs leading-relaxed mb-6 line-clamp-3 relative z-10 font-sans">
+              ${crime.desc}
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-gray-800/80 flex items-center justify-between relative z-10">
+            <button onclick="openCrimeModal('${crime.id}')" class="px-4 py-2 rounded-xl bg-cyber-black border border-gray-700 hover:border-cyber-accent hover:bg-cyber-accent hover:text-black text-white font-orbitron text-xs font-bold transition flex items-center gap-2">
+              <i class="fa-solid fa-book-open"></i> History of Crime
+            </button>
+            <span class="text-[10px] font-mono text-gray-500 flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-cyber-accent animate-ping"></span> Live Vector
+            </span>
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    /* CARD HOVER CANVAS ANIMATIONS LOGIC */
+    const cardAnimIntervals = {};
+
+    function startCardAnimation(id) {
+      const canvas = document.getElementById(`card-canvas-${id}`);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+
+      if (cardAnimIntervals[id]) clearInterval(cardAnimIntervals[id]);
+
+      let offset = 0;
+      cardAnimIntervals[id] = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw pulse scan grid on card
+        ctx.strokeStyle = '#00ffcc';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let x = 0; x < canvas.width; x += 20) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+        }
+        for (let y = (offset % 20); y < canvas.height; y += 20) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(canvas.width, y);
+        }
+        ctx.stroke();
+
+        offset += 1;
+      }, 50);
+    }
+
+    function stopCardAnimation(id) {
+      if (cardAnimIntervals[id]) {
+        clearInterval(cardAnimIntervals[id]);
+        delete cardAnimIntervals[id];
+      }
+      const canvas = document.getElementById(`card-canvas-${id}`);
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    /* ==========================================================================
+       9. CRIME HISTORY MODAL LOGIC
+       ========================================================================== */
+    function openCrimeModal(crimeId) {
+      const crime = CRIME_DATABASE.find(c => c.id === crimeId);
+      if (!crime) return;
+
+      document.getElementById('modalTitle').textContent = crime.title;
+      document.getElementById('modalCodeBadge').textContent = crime.code;
+      document.getElementById('modalOrigin').textContent = crime.origin;
+      document.getElementById('modalPenalCode').textContent = crime.penalCode;
+      document.getElementById('modalDescription').textContent = crime.desc;
+
+      const iconBox = document.getElementById('modalIconBox');
+      iconBox.innerHTML = `<i class="fa-solid ${crime.icon}"></i>`;
+
+      const protocolList = document.getElementById('modalProtocolList');
+      protocolList.innerHTML = crime.protocol.map(p => `<li>${p}</li>`).join('');
+
+      document.getElementById('crimeModal').classList.remove('hidden');
+
+      // Modal canvas background pulse animation
+      const modalCanvas = document.getElementById('modalCanvas');
+      if (modalCanvas) {
+        const ctx = modalCanvas.getContext('2d');
+        modalCanvas.width = modalCanvas.parentElement.clientWidth;
+        modalCanvas.height = modalCanvas.parentElement.clientHeight;
+
+        ctx.fillStyle = '#0b1329';
+        ctx.fillRect(0, 0, modalCanvas.width, modalCanvas.height);
+
+        // Render animated waveform
+        ctx.strokeStyle = crime.color || '#00ffcc';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = 0; x < modalCanvas.width; x += 5) {
+          const y = modalCanvas.height / 2 + Math.sin(x * 0.05) * 20;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+    }
+
+    function closeCrimeModal() {
+      document.getElementById('crimeModal').classList.add('hidden');
+    }
+
+    /* ==========================================================================
+       10. POLICE INTERROGATION QUIZ SYSTEM
+       ========================================================================== */
+    function renderQuizQuestion() {
+      const q = QUIZ_QUESTIONS[currentQuizStep];
+      const container = document.getElementById('quizQuestionsContainer');
+      if (!container || !q) return;
+
+      document.getElementById('quizStepText').textContent = `Question ${currentQuizStep + 1} of ${QUIZ_QUESTIONS.length}`;
+      const percent = Math.round(((currentQuizStep + 1) / QUIZ_QUESTIONS.length) * 100);
+      document.getElementById('quizPercentText').textContent = `${percent}% Completed`;
+      document.getElementById('quizProgressBar').style.width = `${percent}%`;
+
+      let optionsHTML = '';
+
+      if (q.type === 'select') {
+        optionsHTML = `
+          <select id="q_input_${q.id}" onchange="saveQuizAnswer(${q.id}, this.value)" class="w-full bg-cyber-black border border-cyber-yellow/40 focus:border-cyber-yellow rounded-xl p-4 text-white text-sm focus:outline-none">
+            <option value="">-- Select Investigation Response --</option>
+            ${q.options.map(opt => `<option value="${opt}" ${quizAnswers[q.id] === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+          </select>
+        `;
+      } else if (q.type === 'radio') {
+        optionsHTML = `
+          <div class="space-y-3">
+            ${q.options.map((opt, idx) => `
+              <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-cyber-black border border-gray-800 hover:border-cyber-yellow/50 cursor-pointer transition">
+                <input type="radio" name="q_radio_${q.id}" value="${opt}" ${quizAnswers[q.id] === opt ? 'checked' : ''} onchange="saveQuizAnswer(${q.id}, '${opt}')" class="text-cyber-yellow focus:ring-cyber-yellow">
+                <span class="text-xs text-gray-200 font-sans">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+      } else if (q.type === 'checkbox') {
+        const savedArray = quizAnswers[q.id] || [];
+        optionsHTML = `
+          <div class="space-y-3">
+            ${q.options.map((opt, idx) => `
+              <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-cyber-black border border-gray-800 hover:border-cyber-yellow/50 cursor-pointer transition">
+                <input type="checkbox" value="${opt}" ${savedArray.includes(opt) ? 'checked' : ''} onchange="toggleQuizCheckbox(${q.id}, '${opt}')" class="rounded text-cyber-yellow focus:ring-cyber-yellow">
+                <span class="text-xs text-gray-200 font-sans">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="space-y-4">
+          <span class="px-3 py-1 rounded-full bg-cyber-yellow/10 text-cyber-yellow border border-cyber-yellow/30 font-mono text-[11px] font-bold uppercase">
+            ${q.title}
+          </span>
+          <h3 class="text-xl sm:text-2xl font-orbitron font-bold text-white">${q.question}</h3>
+          <div class="pt-4">${optionsHTML}</div>
+        </div>
+      `;
+
+      // Button visibility updates
+      document.getElementById('prevQuizBtn').disabled = (currentQuizStep === 0);
+      if (currentQuizStep === QUIZ_QUESTIONS.length - 1) {
+        document.getElementById('nextQuizBtn').classList.add('hidden');
+        document.getElementById('submitQuizBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('nextQuizBtn').classList.remove('hidden');
+        document.getElementById('submitQuizBtn').classList.add('hidden');
+      }
+    }
+
+    function saveQuizAnswer(qId, val) {
+      quizAnswers[qId] = val;
+    }
+
+    function toggleQuizCheckbox(qId, val) {
+      if (!quizAnswers[qId]) quizAnswers[qId] = [];
+      const arr = quizAnswers[qId];
+      const index = arr.indexOf(val);
+      if (index > -1) {
+        arr.splice(index, 1);
+      } else {
+        arr.push(val);
+      }
+    }
+
+    function navigateQuiz(dir) {
+      currentQuizStep += dir;
+      if (currentQuizStep < 0) currentQuizStep = 0;
+      if (currentQuizStep >= QUIZ_QUESTIONS.length) currentQuizStep = QUIZ_QUESTIONS.length - 1;
+      renderQuizQuestion();
+    }
+
+    function handleQuizSubmit(e) {
+      e.preventDefault();
+      
+      // Unlock Gated FIR System
+      isQuizCompleted = true;
+
+      // Update Nav FIR Badges
+      const firLockIcon = document.getElementById('firLockIcon');
+      if (firLockIcon) firLockIcon.className = 'fa-solid fa-lock-open text-cyber-accent';
+      
+      const firBadge = document.getElementById('firBadge');
+      if (firBadge) {
+        firBadge.className = 'bg-cyber-accent text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full';
+        firBadge.textContent = 'Unlocked';
+      }
+
+      const mobileFirStatus = document.getElementById('mobileFirStatus');
+      if (mobileFirStatus) {
+        mobileFirStatus.className = 'bg-cyber-accent text-black text-xs font-bold px-2 py-0.5 rounded-full';
+        mobileFirStatus.textContent = 'Unlocked';
+      }
+
+      // Hide Locked Screen & Show FIR Form
+      document.getElementById('firLockedScreen').classList.add('hidden');
+      document.getElementById('firUnlockedScreen').classList.remove('hidden');
+
+      // Switch to FIR Tab automatically
+      switchTab('fir');
+    }
+
+    /* ==========================================================================
+       11. ONLINE FIR APPLICATION & RECEIPT GENERATOR
+       ========================================================================== */
+    function populateFirCategories() {
+      const select = document.getElementById('firCategory');
+      if (!select) return;
+      select.innerHTML = CRIME_DATABASE.map(c => `<option value="${c.title}">${c.title} (${c.code})</option>`).join('');
+    }
+
+    function handleFirSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('firFullName').value;
+      const age = document.getElementById('firAge').value;
+      const phone = document.getElementById('firPhone').value;
+      const email = document.getElementById('firEmail').value;
+      const category = document.getElementById('firCategory').value;
+      
+      const day = document.getElementById('firDay').value;
+      const dateNum = document.getElementById('firDateNum').value;
+      const month = document.getElementById('firMonth').value;
+      const year = document.getElementById('firYear').value;
+
+      const weapon = document.getElementById('firWeapon').value;
+      const suspect = document.getElementById('firSuspect').value || 'Unidentified Suspect';
+      const narrative = document.getElementById('firNarrative').value;
+
+      // Generate Auto Hash ID
+      const randomHash = '#SH-' + Math.floor(1000 + Math.random() * 9000) + '-2026';
+
+      // Fill Receipt Modal Data
+      document.getElementById('receiptHash').textContent = randomHash;
+      document.getElementById('receiptName').textContent = name;
+      document.getElementById('receiptCategory').textContent = category;
+      document.getElementById('receiptAge').textContent = age;
+      document.getElementById('receiptPhone').textContent = phone;
+      document.getElementById('receiptEmail').textContent = email;
+      document.getElementById('receiptTimeline').textContent = `${day}, ${dateNum} ${month} ${year}`;
+      document.getElementById('receiptWeapon').textContent = weapon;
+      document.getElementById('receiptSuspect').textContent = suspect;
+      document.getElementById('receiptNarrative').textContent = `"${narrative}"`;
+
+      // Generate QR Code on Canvas
+      const qrCanvas = document.getElementById('receiptQrCanvas');
+      if (qrCanvas && window.QRious) {
+        new QRious({
+          element: qrCanvas,
+          value: `SAFE HAVEN FIR VERIFICATION\nHash: ${randomHash}\nComplainant: ${name}\nCategory: ${category}\nTimestamp: ${dateNum} ${month} ${year}`,
+          size: 150
+        });
+      }
+
+      // Open Receipt Modal
+      document.getElementById('firReceiptModal').classList.remove('hidden');
+    }
+
+    function closeReceiptModal() {
+      document.getElementById('firReceiptModal').classList.add('hidden');
+      switchTab('home');
+    }
+
+    /* ==========================================================================
+       12. NAVIGATION TAB SWITCHER
+       ========================================================================== */
+    function switchTab(tabId) {
+      // Hide all tabs
+      const tabs = ['home', 'categories', 'guide', 'quiz', 'fir'];
+      tabs.forEach(t => {
+        const section = document.getElementById(`tab-${t}`);
+        if (section) section.classList.add('hidden');
+        
+        const navBtn = document.getElementById(`nav-${t}`);
+        if (navBtn) {
+          navBtn.classList.remove('text-cyber-accent', 'bg-cyber-accent/10', 'border', 'border-cyber-accent/30');
+          navBtn.classList.add('text-gray-300');
+        }
+      });
+
+      // Show selected tab
+      const selectedSection = document.getElementById(`tab-${tabId}`);
+      if (selectedSection) selectedSection.classList.remove('hidden');
+
+      const activeNavBtn = document.getElementById(`nav-${tabId}`);
+      if (activeNavBtn) {
+        activeNavBtn.classList.add('text-cyber-accent', 'bg-cyber-accent/10', 'border', 'border-cyber-accent/30');
+        activeNavBtn.classList.remove('text-gray-300');
+      }
+
+      // Close mobile drawer if open
+      document.getElementById('mobileMenu').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>
